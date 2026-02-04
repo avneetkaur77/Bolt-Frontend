@@ -1,28 +1,17 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata = {
-  title: "Bolt - Fintech Dashboard",
-  description: "Secure, fast, and modern fintech application",
+  title: "International Crypto Payments",
+  description: "Seamless global crypto payments using MetaMask",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="min-h-screen flex flex-col">
+        <main className="flex-grow flex flex-col relative w-full max-w-md mx-auto min-h-screen shadow-2xl overflow-hidden glass-panel">
+          {children}
+        </main>
       </body>
     </html>
   );

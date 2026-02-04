@@ -1,58 +1,73 @@
-import Link from 'next/link';
-import Button from '@/components/Button';
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { ArrowRight, Globe, ShieldCheck, Wallet } from "lucide-react";
+import { motion } from "framer-motion";
+import Button from "@/components/Button";
+import ScreenContainer from "@/components/ScreenContainer";
+
+export default function LandingPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-slate-950">
-      {/* Background gradients */}
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
+    <ScreenContainer className="justify-center items-center p-6 text-center">
+      <div className="flex-1 flex flex-col justify-center items-center w-full space-y-8">
 
-      <div className="z-10 flex flex-col items-center text-center max-w-md w-full space-y-12">
-        <div className="space-y-6">
-          <div className="w-20 h-20 mx-auto bg-indigo-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-indigo-500/20 transform rotate-6 mb-8">
-            <span className="text-white font-bold text-4xl">B</span>
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-4"
+        >
+          <div className="mx-auto w-16 h-16 bg-gradient-to-tr from-violet-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/30">
+            <Globe className="w-8 h-8 text-white" />
           </div>
-
-          <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
-            Bolt
+          <h1 className="text-4xl font-bold tracking-tight">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400">
+              ChainPay
+            </span>
           </h1>
-          <p className="text-slate-400 text-lg leading-relaxed">
-            The future of decentralized finance. <br />Fast, secure, and borderless.
+          <p className="text-slate-400 text-lg max-w-xs mx-auto leading-relaxed">
+            The world's most secure international crypto payments platform.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="w-full">
-          <Link href="/wallet-connect">
-            <Button className="w-full py-4 text-lg shadow-xl shadow-indigo-500/20">
-              Connect MetaMask
-            </Button>
-          </Link>
-          <p className="mt-6 text-xs text-slate-600">
-            By connecting, you agree to our Terms of Service.
-          </p>
-        </div>
-
-        {/* Feature grid */}
-        <div className="grid grid-cols-2 gap-4 w-full">
-          <div className="p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-sm">
-            <div className="text-indigo-400 mb-3 text-2xl">⚡</div>
-            <div className="text-sm font-medium text-slate-200">Instant</div>
+        {/* Feature Pills */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3"
+        >
+          <div className="px-3 py-1.5 rounded-full bg-slate-800/50 border border-white/10 flex items-center gap-2 text-xs font-medium text-slate-300">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            Secure
           </div>
-          <div className="p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-sm">
-            <div className="text-emerald-400 mb-3 text-2xl">🛡</div>
-            <div className="text-sm font-medium text-slate-200">Secure</div>
+          <div className="px-3 py-1.5 rounded-full bg-slate-800/50 border border-white/10 flex items-center gap-2 text-xs font-medium text-slate-300">
+            <Wallet className="w-3.5 h-3.5 text-blue-400" />
+            Fast
           </div>
-          <div className="p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-sm">
-            <div className="text-blue-400 mb-3 text-2xl">🌐</div>
-            <div className="text-sm font-medium text-slate-200">Global</div>
+          <div className="px-3 py-1.5 rounded-full bg-slate-800/50 border border-white/10 flex items-center gap-2 text-xs font-medium text-slate-300">
+            <Globe className="w-3.5 h-3.5 text-violet-400" />
+            Global
           </div>
-          <div className="p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-sm">
-            <div className="text-amber-400 mb-3 text-2xl">💳</div>
-            <div className="text-sm font-medium text-slate-200">Low Fees</div>
-          </div>
-        </div>
+        </motion.div>
       </div>
-    </main>
+
+      {/* Action Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="w-full space-y-3"
+      >
+        <Button href="/signup" fullWidth size="lg">
+          Create Account
+        </Button>
+        <Button href="/login" variant="secondary" fullWidth size="lg">
+          Login
+        </Button>
+      </motion.div>
+
+    </ScreenContainer>
   );
 }

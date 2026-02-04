@@ -1,7 +1,18 @@
-export default function Card({ children, className = "" }) {
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+const Card = ({ children, className, ...props }) => {
     return (
-        <div className={`bg-slate-900/40 backdrop-blur-2xl border border-slate-800/50 rounded-3xl p-8 ${className}`}>
+        <div
+            className={twMerge(
+                "bg-slate-800/40 border border-white/5 rounded-2xl p-5 backdrop-blur-sm",
+                className
+            )}
+            {...props}
+        >
             {children}
         </div>
     );
-}
+};
+
+export default Card;

@@ -1,77 +1,85 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import StepProgress from '@/components/StepProgress';
-import Button from '@/components/Button';
-import Card from '@/components/Card';
-import Navbar from '@/components/Navbar';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Wallet, CheckCircle, ArrowRight, Loader2 } from "lucide-react";
+import Button from "@/components/Button";
+import Card from "@/components/Card";
+import ScreenContainer from "@/components/ScreenContainer";
 
-export default function WalletConnect() {
+export default function WalletConnectPage() {
     const router = useRouter();
-    const [status, setStatus] = useState('idle'); // idle, connecting, connected
-    const [wallet, setWallet] = useState(null);
+    const [isConnecting, setIsConnecting] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
 
-    const connectWallet = () => {
-        setStatus('connecting');
-        // Simulate delay
+    const handleConnect = () => {
+        setIsConnecting(true);
+        // Simulate connection delay
         setTimeout(() => {
-            setStatus('connected');
-            setWallet('0x71C...9A23');
-        }, 1500);
+            setIsConnecting(false);
+            setIsConnected(true);
+        }, 2000);
     };
 
     const handleContinue = () => {
-        router.push('/kyc');
+        router.push("/kyc");
     };
 
     return (
-        <div className="min-h-screen pb-20 bg-slate-950">
-            <Navbar />
-            <main className="pt-10 px-6 max-w-md mx-auto">
-                <StepProgress currentStep={1} />
+        <ScreenContainer className="p-6 justify-center">
+            <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10 shadow-lg shadow-violet-500/10">
+                    <Wallet className="w-8 h-8 text-violet-400" />
+                </div>
+                <h1 className="text-2xl font-bold text-white mb-2">Connect Wallet</h1>
+                <p className="text-slate-400">Link your MetaMask wallet to continue.</p>
+            </div>
 
-                <h1 className="text-2xl font-bold mb-2">Connect Wallet</h1>
-                <p className="text-slate-400 mb-8 text-sm">Select a provider to connect your wallet.</p>
-
-                <Card className="flex flex-col items-center space-y-6">
-                    <div className="w-24 h-24 bg-orange-500/10 rounded-full flex items-center justify-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-orange-500/20 blur-xl" />
-                        <div className="w-12 h-12 bg-orange-500 rounded-xl transform rotate-12 shadow-lg shadow-orange-500/30" />
+            <Card className="mb-6 space-y-4">
+                {!isConnected ? (
+                    <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl border border-white/5">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                                {/* MetaMask Fox Icon Placeholder - using generic shape or emoji since can't load SVG assets easily right now */}
+                                <span className="text-lg">🦊</span>
+                            </div>
+                            <div className="text-left">
+                                <p className="font-medium text-white">MetaMask</p>
+                                <p className="text-xs text-slate-400">Ethereum Network</p>
+                            </div>
+                        </div>
+                        {isConnecting && <Loader2 className="w-5 h-5 text-violet-400 animate-spin" />}
                     </div>
-
-                    <div className="text-center">
-                        <h2 className="text-lg font-bold mb-2">MetaMask</h2>
-                        <p className="text-slate-400 text-sm">
-                            The most popular wallet for Ethereum and other EVM chains.
+                ) : (
+                    <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center space-y-2 animate-in fade-in zoom-in duration-300">
+                        <CheckCircle className="w-8 h-8 text-emerald-400 mx-auto" />
+                        <p className="text-emerald-400 font-medium">Wallet Connected</p>
+                        <p className="text-xs text-slate-400 font-mono bg-slate-900/50 py-1.5 px-3 rounded-lg mx-auto inline-block">
+                            0x71C...9A23
                         </p>
                     </div>
+                )}
+            </Card>
 
-                    {status === 'idle' && (
-                        <Button onClick={connectWallet} className="w-full bg-orange-600 hover:bg-orange-500 border-none shadow-orange-500/20">
-                            Connect MetaMask
-                        </Button>
-                    )}
-
-                    {status === 'connecting' && (
-                        <Button disabled className="w-full bg-slate-800 text-slate-400 border-none">
-                            Connecting...
-                        </Button>
-                    )}
-
-                    {status === 'connected' && (
-                        <div className="w-full space-y-4">
-                            <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800 flex items-center justify-between">
-                                <span className="text-sm text-slate-400">Address</span>
-                                <span className="text-sm font-mono text-indigo-400">{wallet}</span>
-                            </div>
-                            <Button onClick={handleContinue} className="w-full" variant="primary">
-                                Continue
-                            </Button>
-                        </div>
-                    )}
-                </Card>
-            </main>
-        </div>
+            {!isConnected ? (
+                <Button
+                    fullWidth
+                    size="lg"
+                    onClick={handleConnect}
+                    isLoading={isConnecting}
+                >
+                    {isConnecting ? "Connecting..." : "Connect MetaMask Wallet"}
+                </Button>
+            ) : (
+                <Button
+                    fullWidth
+                    size="lg"
+                    onClick={handleContinue}
+                    icon={ArrowRight}
+                >
+                    Continue
+                </Button>
+            )}
+        </ScreenContainer>
     );
 }
