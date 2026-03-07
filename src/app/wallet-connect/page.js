@@ -83,25 +83,29 @@ export default function WalletConnectPage() {
             setIsConnected(true);
             setIsConnecting(false);
 
-            // Send wallet address to backend
-            await fetch("http://localhost:8080/wallet/connect", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    wallet_address: address
-                })
-            });
+            // // Send wallet address to backend
+            // await fetch("http://localhost:8080/wallet/connect", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify({
+            //         wallet_address: address
+            //     })
+            // });
+
 
             console.log("Connected wallet:", address);
 
         } catch (error) {
 
-            console.error("MetaMask connection failed:", error);
-            setIsConnecting(false);
+    console.error("MetaMask connection failed:", error);
+    console.error("Error code:", error?.code);
+    console.error("Error message:", error?.message);
 
-        }
+    setIsConnecting(false);
+
+}
     };
 
     const handleContinue = () => {
