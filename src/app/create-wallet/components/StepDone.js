@@ -18,8 +18,8 @@ export default function StepDone({ walletAddress }) {
       </div>
 
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Wallet Created!</h1>
-        <p className="text-slate-400 text-sm">Your new Bolt-Dev wallet is ready to use.</p>
+        <h1 className="text-4xl font-bold tracking-tighter neon-text mb-2">Success!</h1>
+        <p className="text-slate-400 text-sm font-medium">Your Bolt-Dev wallet is online.</p>
       </div>
 
       <Card className="w-full text-left space-y-3">

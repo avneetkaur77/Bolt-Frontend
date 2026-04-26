@@ -94,90 +94,100 @@ export default function DashboardPage() {
   };
 
   return (
-    <ScreenContainer scrollable className="pb-24">
+    <ScreenContainer scrollable className="pb-24 cyber-grid no-scrollbar">
 
       {/* ── Top Bar ── */}
-      <div className="sticky top-0 z-10 bg-slate-950/80 backdrop-blur-md border-b border-white/5 px-5 py-3 flex items-center justify-between">
+      <div className="sticky top-0 z-10 bg-slate-950/60 backdrop-blur-xl border-b border-white/5 px-5 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">B</span>
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20 border border-violet-400/20">
+            <span className="text-white text-sm font-bold">B</span>
           </div>
-          <span className="font-bold text-white text-sm">Bolt-Dev</span>
+          <span className="font-bold text-white text-base tracking-tight">Bolt-Dev</span>
           {isRealWallet && (
-            <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/20 font-bold uppercase tracking-wider ml-1">
-              Live
-            </span>
+            <div className="flex items-center gap-1.5 ml-2 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <div className="w-1 h-1 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest">Live</span>
+            </div>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          <button className="relative w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-colors">
-            <Bell className="w-4 h-4 text-slate-400" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-violet-500 rounded-full border border-slate-950" />
+        <div className="flex items-center gap-3">
+          <button className="relative w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-all">
+            <Bell className="w-4.5 h-4.5 text-slate-400" />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-violet-500 rounded-full border-2 border-slate-950" />
           </button>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 border-2 border-slate-900 shadow-lg" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 border border-white/20 shadow-lg shadow-fuchsia-500/20" />
         </div>
       </div>
 
       {/* ── Balance Hero ── */}
-      <div className="bg-gradient-to-b from-indigo-900/40 to-slate-950 px-6 pt-6 pb-8 relative overflow-hidden">
+      <div className="px-6 pt-8 pb-10 relative overflow-hidden">
         {/* Background glows */}
-        <div className="absolute -top-10 -left-10 w-40 h-40 bg-violet-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px] pointer-events-none" />
 
         {/* Address pill */}
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 bg-slate-800/60 border border-white/10 px-3 py-1.5 rounded-full mb-5 mx-auto hover:border-violet-500/40 transition-all"
+          className="flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 rounded-2xl mb-8 mx-auto hover:border-violet-500/40 hover:bg-white/10 transition-all shadow-xl"
         >
-          <div className={`w-2 h-2 ${isRealWallet ? "bg-emerald-400" : "bg-blue-400"} rounded-full animate-pulse`} />
-          <span className="text-xs font-mono text-slate-300">
+          <div className={`w-2 h-2 ${isRealWallet ? "bg-emerald-400" : "bg-blue-400"} rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]`} />
+          <span className="text-xs font-mono text-slate-300 tracking-wider">
             {address.slice(0, 8)}...{address.slice(-6)}
           </span>
           {copied ? (
-            <CheckCircle className="w-3 h-3 text-emerald-400" />
+            <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
           ) : (
-            <Copy className="w-3 h-3 text-slate-500" />
+            <Copy className="w-3.5 h-3.5 text-slate-500" />
           )}
         </button>
 
-        <div className="text-center space-y-1 mb-6">
-          <p className="text-slate-400 text-sm font-medium">Total Portfolio Value</p>
+        <div className="text-center space-y-2 mb-10">
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">Net Assets</p>
           <button
             onClick={() => setBalanceVisible(!balanceVisible)}
-            className="flex items-center justify-center gap-2 mx-auto"
+            className="flex items-center justify-center gap-3 mx-auto group"
           >
-            <h1 className="text-4xl font-bold text-white tracking-tight">
+            <h1 className="text-5xl font-bold text-white tracking-tighter drop-shadow-2xl">
               {balanceVisible ? balanceUsd : "••••••"}
             </h1>
-            {balanceVisible ? (
-              <EyeOff className="w-4 h-4 text-slate-500" />
-            ) : (
-              <Eye className="w-4 h-4 text-slate-500" />
-            )}
+            <div className="p-2 rounded-lg bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+              {balanceVisible ? (
+                <EyeOff className="w-4 h-4 text-slate-400" />
+              ) : (
+                <Eye className="w-4 h-4 text-slate-400" />
+              )}
+            </div>
           </button>
-          <div className="flex items-center justify-center gap-1 text-emerald-400 text-sm">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>{balanceVisible ? "+$305.20 (2.5%) today" : "••••"}</span>
+            <span>{balanceVisible ? "+$305.20 (2.5%)" : "••••"}</span>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
-          <Button href="/send" fullWidth icon={Send} size="md">
-            Send
-          </Button>
-          <Button
-            fullWidth
-            variant="secondary"
-            icon={QrCode}
-            size="md"
-            onClick={() => setShowReceive(!showReceive)}
-          >
-            Receive
-          </Button>
-          <Button href="/transaction/review" fullWidth variant="secondary" icon={History} size="md">
-            History
-          </Button>
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { label: "Send", icon: Send, href: "/send", primary: true },
+            { label: "Receive", icon: QrCode, onClick: () => setShowReceive(!showReceive) },
+            { label: "Activity", icon: History, href: "/transaction/review" },
+          ].map((action) => (
+            <div key={action.label} className="flex flex-col items-center gap-2">
+              <button
+                onClick={action.onClick}
+                className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-xl ${
+                  action.primary 
+                    ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-violet-500/20 border border-violet-400/30 hover:scale-105" 
+                    : "bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 hover:border-white/20"
+                }`}
+              >
+                {action.href ? (
+                  <Link href={action.href}><action.icon className="w-6 h-6" /></Link>
+                ) : (
+                  <action.icon className="w-6 h-6" />
+                )}
+              </button>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{action.label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
