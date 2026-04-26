@@ -24,8 +24,10 @@ export default function WalletConnectPage() {
             method: "eth_accounts",
           });
           if (accounts.length > 0) {
-            setWalletAddress(accounts[0]);
+            const address = accounts[0];
+            setWalletAddress(address);
             setIsConnected(true);
+            localStorage.setItem("connectedWallet", address);
           }
         } catch (error) {
           console.error("Error checking wallet connection", error);
@@ -40,11 +42,14 @@ export default function WalletConnectPage() {
     if (typeof window !== "undefined" && window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length > 0) {
-          setWalletAddress(accounts[0]);
+          const address = accounts[0];
+          setWalletAddress(address);
           setIsConnected(true);
+          localStorage.setItem("connectedWallet", address);
         } else {
           setWalletAddress("");
           setIsConnected(false);
+          localStorage.removeItem("connectedWallet");
         }
       });
     }
@@ -71,6 +76,7 @@ export default function WalletConnectPage() {
       setWalletAddress(address);
       setIsConnected(true);
       setIsConnecting(false);
+      localStorage.setItem("connectedWallet", address);
       console.log("Connected wallet:", address);
     } catch (error) {
       console.error("MetaMask connection failed:", error);

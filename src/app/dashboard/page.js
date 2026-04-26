@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Send,
@@ -21,6 +21,7 @@ import Button from "@/components/Button";
 import Card from "@/components/Card";
 import ScreenContainer from "@/components/ScreenContainer";
 
+// Demo Fallback Data
 const DUMMY_ADDRESS = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
 const DUMMY_BALANCE_ETH = "4.5420";
 const DUMMY_BALANCE_USD = "$12,450.00";
@@ -42,9 +43,52 @@ export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [showReceive, setShowReceive] = useState(false);
+  
+  // Real Data State
+  const [address, setAddress] = useState(DUMMY_ADDRESS);
+  const [balanceEth, setBalanceEth] = useState(DUMMY_BALANCE_ETH);
+  const [balanceUsd, setBalanceUsd] = useState(DUMMY_BALANCE_USD);
+  const [isRealWallet, setIsRealWallet] = useState(false);
+
+  useEffect(() => {
+    const fetchRealBalance = async () => {
+      // Check if we have a saved connection or active ethereum provider
+      const savedAddress = localStorage.getItem("connectedWallet");
+      
+      if (typeof window !== "undefined" && window.ethereum && savedAddress) {
+        try {
+          // Get balance in Wei (hex)
+          const balanceHex = await window.ethereum.request({
+            method: "eth_getBalance",
+            params: [savedAddress, "latest"],
+          });
+          
+          // Convert Wei to ETH
+          const wei = parseInt(balanceHex, 16);
+          const eth = (wei / Math.pow(10, 18)).toFixed(4);
+          
+          // Simple mock for USD (ETH Price approx $2500)
+          const usd = (parseFloat(eth) * 2500).toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          });
+          
+          setAddress(savedAddress);
+          setBalanceEth(eth);
+          setBalanceUsd(usd);
+          setIsRealWallet(true);
+        } catch (error) {
+          console.error("Failed to fetch real balance:", error);
+          // Keep dummy data on error
+        }
+      }
+    };
+
+    fetchRealBalance();
+  }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(DUMMY_ADDRESS);
+    navigator.clipboard.writeText(address);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -59,6 +103,11 @@ export default function DashboardPage() {
             <span className="text-white text-xs font-bold">B</span>
           </div>
           <span className="font-bold text-white text-sm">Bolt-Dev</span>
+          {isRealWallet && (
+            <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/20 font-bold uppercase tracking-wider ml-1">
+              Live
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <button className="relative w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-colors">
@@ -80,9 +129,9 @@ export default function DashboardPage() {
           onClick={handleCopy}
           className="flex items-center gap-2 bg-slate-800/60 border border-white/10 px-3 py-1.5 rounded-full mb-5 mx-auto hover:border-violet-500/40 transition-all"
         >
-          <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+          <div className={`w-2 h-2 ${isRealWallet ? "bg-emerald-400" : "bg-blue-400"} rounded-full animate-pulse`} />
           <span className="text-xs font-mono text-slate-300">
-            {DUMMY_ADDRESS.slice(0, 8)}...{DUMMY_ADDRESS.slice(-6)}
+            {address.slice(0, 8)}...{address.slice(-6)}
           </span>
           {copied ? (
             <CheckCircle className="w-3 h-3 text-emerald-400" />
@@ -98,7 +147,7 @@ export default function DashboardPage() {
             className="flex items-center justify-center gap-2 mx-auto"
           >
             <h1 className="text-4xl font-bold text-white tracking-tight">
-              {balanceVisible ? DUMMY_BALANCE_USD : "••••••"}
+              {balanceVisible ? balanceUsd : "••••••"}
             </h1>
             {balanceVisible ? (
               <EyeOff className="w-4 h-4 text-slate-500" />
@@ -161,7 +210,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-2 bg-slate-800/60 border border-white/5 rounded-lg p-3">
-              <p className="text-xs font-mono text-slate-300 flex-1 break-all">{DUMMY_ADDRESS}</p>
+              <p className="text-xs font-mono text-slate-300 flex-1 break-all">{address}</p>
               <button onClick={handleCopy} className="text-slate-400 hover:text-violet-400 transition-colors shrink-0">
                 {copied ? <CheckCircle className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               </button>
@@ -194,9 +243,11 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-white text-sm">{balanceVisible ? asset.value : "••••"}</p>
+                  <p className="font-semibold text-white text-sm">
+                    {balanceVisible ? (asset.symbol === "ETH" ? `${balanceEth} ETH` : asset.value) : "••••"}
+                  </p>
                   <p className={`text-xs flex items-center justify-end gap-0.5 ${asset.positive ? "text-emerald-400" : "text-red-400"}`}>
-                    {asset.change} <span className="text-slate-500 ml-1">{asset.amount} {asset.symbol}</span>
+                    {asset.change} <span className="text-slate-500 ml-1">{asset.symbol === "ETH" ? balanceEth : asset.amount} {asset.symbol}</span>
                   </p>
                 </div>
               </Card>

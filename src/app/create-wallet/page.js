@@ -100,9 +100,11 @@ export default function CreateWalletPage() {
     
     // Simulate wallet creation
     setTimeout(() => {
-      setWalletAddress(generateDummyAddress());
+      const dummyAddr = generateDummyAddress();
+      setWalletAddress(dummyAddr);
       setIsCreating(false);
       setStep(4);
+      localStorage.setItem("connectedWallet", dummyAddr);
     }, 2500);
   };
 
