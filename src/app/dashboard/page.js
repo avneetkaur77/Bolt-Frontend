@@ -26,10 +26,10 @@ const DUMMY_BALANCE_ETH = "4.5420";
 const DUMMY_BALANCE_USD = "$12,450.00";
 
 const TRANSACTIONS = [
-  { id: 1, type: "sent", amount: "0.45 ETH", fiat: "$1,250", to: "0x8AB...2F91", date: "Today, 10:23 AM", status: "Completed" },
-  { id: 2, type: "received", amount: "1.20 ETH", fiat: "$3,400", from: "0xA3C...8D12", date: "Yesterday, 3:45 PM", status: "Completed" },
+  { id: 1, type: "sent", amount: "0.45 ETH", fiat: "$1,250", to: "Gagan test", date: "Today, 10:23 AM", status: "Completed" },
+  { id: 2, type: "received", amount: "1.20 ETH", fiat: "$3,400", from: "gagantest123", date: "Yesterday, 3:45 PM", status: "Completed" },
   { id: 3, type: "sent", amount: "0.10 ETH", fiat: "$280", to: "0x22F...9B34", date: "Apr 23, 9:00 AM", status: "Completed" },
-  { id: 4, type: "received", amount: "2.00 ETH", fiat: "$5,710", from: "0xF1D...4C90", date: "Apr 20, 2:30 PM", status: "Completed" },
+  { id: 4, type: "received", amount: "2.00 ETH", fiat: "$5,710", from: "Gagan test", date: "Apr 20, 2:30 PM", status: "Completed" },
 ];
 
 const CRYPTO_ASSETS = [
@@ -56,9 +56,9 @@ export default function DashboardPage() {
       <div className="sticky top-0 z-10 bg-slate-950/80 backdrop-blur-md border-b border-white/5 px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">C</span>
+            <span className="text-white text-xs font-bold">B</span>
           </div>
-          <span className="font-bold text-white text-sm">ChainPay</span>
+          <span className="font-bold text-white text-sm">Bolt-Dev</span>
         </div>
         <div className="flex items-center gap-2">
           <button className="relative w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-colors">

@@ -23,7 +23,7 @@ export default function LandingPage() {
           </div>
           <h1 className="text-4xl font-bold tracking-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400">
-              ChainPay
+              Bolt-Dev
             </span>
           </h1>
           <p className="text-slate-400 text-lg max-w-xs mx-auto leading-relaxed">
