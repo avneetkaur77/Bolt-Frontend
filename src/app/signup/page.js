@@ -1,61 +1,73 @@
-import Link from "next/link";
-import { User, Mail, Lock, ArrowLeft } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { User, Mail, Lock } from "lucide-react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import ScreenContainer from "@/components/ScreenContainer";
 
 export default function SignupPage() {
+    const router = useRouter();
+
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await fetch("http://localhost:5001/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    email_id: email,
+                    password: password,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || "Signup failed");
+            }
+
+            router.push("/login");
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <ScreenContainer className="p-6">
-            {/* Header */}
-            <div className="mb-6">
-                <Link href="/" className="inline-flex items-center text-slate-400 hover:text-white transition-colors mb-4">
-                    <ArrowLeft className="w-4 h-4 mr-1" />
-                    Back
-                </Link>
-                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-                    Create Account
-                </h1>
-                <p className="text-slate-400 mt-1">Start your crypto journey today.</p>
-            </div>
+            <form onSubmit={handleSignup} className="flex flex-col space-y-5">
 
-            {/* Form */}
-            <form className="flexflex-col space-y-5 flex-1" action="/login">
-                <Input
-                    label="Full Name"
-                    placeholder="John Doe"
-                    icon={User}
-                    required
-                />
-                <Input
-                    label="Email Address"
-                    type="email"
-                    placeholder="john@example.com"
-                    icon={Mail}
-                    required
-                />
-                <Input
-                    label="Password"
-                    type="password"
-                    placeholder="••••••••"
-                    icon={Lock}
-                    required
-                />
+                <Input label="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} icon={User} required />
+                <Input label="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} icon={User} required />
+                <Input label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} icon={Mail} required />
+                <Input label="Password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} icon={Lock} required />
 
-                <div className="flex-1"></div>
+                {error && <p className="text-red-400">{error}</p>}
 
-                <Button fullWidth size="lg" type="submit">
+                <Button type="submit" isLoading={loading} fullWidth>
                     Sign Up
                 </Button>
-            </form>
 
-            {/* Footer */}
-            <div className="mt-6 text-center text-sm text-slate-400">
-                Already have an account?{" "}
-                <Link href="/login" className="text-violet-400 hover:text-violet-300 font-medium">
-                    Login
-                </Link>
-            </div>
+            </form>
         </ScreenContainer>
     );
 }
