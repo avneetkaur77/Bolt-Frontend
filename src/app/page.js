@@ -18,7 +18,7 @@ export default function LandingPage() {
           transition={{ duration: 0.5 }}
           className="space-y-6"
         >
-          <div className="mx-auto w-20 h-20 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_-5px_rgba(139,92,246,0.5)] border border-violet-400/30 animate-float">
+          <div className="mx-auto w-20 h-20 bg-gradient-to-tr from-[#4a5fc1] to-[#394f8a] rounded-3xl flex items-center justify-center shadow-[0_0_40px_-5px_rgba(74,95,193,0.5)] border  border-[#4a5fc1]/30 animate-float">
             <Globe className="w-10 h-10 text-white" />
           </div>
           <div className="space-y-2">
@@ -27,11 +27,11 @@ export default function LandingPage() {
                 Bolt-Dev
               </span>
             </h1>
-            <p className="text-slate-400 text-base font-medium tracking-wide uppercase">
+            <p className="text-[#7a5c65]/70 text-base font-medium tracking-wide uppercase">
               Next-Gen Payments
             </p>
           </div>
-          <p className="text-slate-300/80 text-lg max-w-xs mx-auto leading-relaxed font-light">
+          <p className="text-[#7a5c65]/80 text-lg max-w-xs mx-auto leading-relaxed font-light">
             Secure, instant international crypto payments at your fingertips.
           </p>
         </motion.div>
@@ -43,12 +43,12 @@ export default function LandingPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-4"
         >
-          <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-300 backdrop-blur-md">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="px-4 py-2 rounded-xl bg-[#ead6cd]/90 border border-[#4a5fc1]/20 flex items-center gap-2 text-xs font-semibold text-[#7a5c65] backdrop-blur-md">
+            <ShieldCheck className="w-4 h-4 text-[#4a5fc1]" />
             Military Grade
           </div>
-          <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-300 backdrop-blur-md">
-            <Wallet className="w-4 h-4 text-blue-400" />
+          <div className="px-4 py-2 rounded-xl bg-[#ead6cd]/90 border border-[#4a5fc1]/20 flex items-center gap-2 text-xs font-semibold text-[#7a5c65] backdrop-blur-md">
+            <Wallet className="w-4 h-4 text-[#cf7956]" />
             Instant
           </div>
         </motion.div>

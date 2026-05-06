@@ -17,11 +17,11 @@ const Button = ({
     const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100";
 
     const variants = {
-        primary: "bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-[0_0_20px_-5px_rgba(139,92,246,0.5)] border border-violet-400/20",
-        secondary: "bg-white/5 backdrop-blur-md hover:bg-white/10 text-white border border-white/10 shadow-lg",
-        outline: "bg-transparent border border-white/10 text-white hover:border-violet-500/50 hover:bg-violet-500/5",
-        ghost: "bg-transparent text-slate-400 hover:text-white transition-colors",
-        danger: "bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20"
+        primary: "bg-gradient-to-r from-[#4a5fc1] to-[#394f8a] hover:from-[#394f8a] hover:to-[#4a5fc1] text-white shadow-[0_0_20px_-5px_rgba(74,95,193,0.3)] border border-[#4a5fc1]/20",
+        secondary: "bg-[#9cf6fb]/80 hover:bg-[#9cf6fb]/90 text-[#7a5c65] border border-[#9cf6fb]/50 shadow-sm backdrop-blur-sm",
+        outline: "bg-transparent border border-[#4a5fc1]/30 text-[#7a5c65] hover:border-[#4a5fc1]/50 hover:bg-[#9cf6fb]/20 backdrop-blur-sm",
+        ghost: "bg-transparent text-[#7a5c65]/70 hover:text-[#7a5c65] hover:bg-[#ead6cd]/50 transition-colors backdrop-blur-sm",
+        danger: "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200"
     };
 
     const sizes = {

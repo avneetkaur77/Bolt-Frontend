@@ -12,13 +12,13 @@ const Input = ({
     return (
         <div className={twMerge("w-full space-y-1.5", containerClassName)}>
             {label && (
-                <label className="block text-sm font-medium text-slate-300 ml-1">
+                <label className="block text-sm font-medium text-[#7a5c65] ml-1">
                     {label}
                 </label>
             )}
             <div className="relative group">
                 {Icon && (
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-400 transition-colors">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a5c65]/60 group-focus-within:text-[#4a5fc1] transition-colors">
                         <Icon className="w-5 h-5" />
                     </div>
                 )}
