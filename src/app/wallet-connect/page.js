@@ -90,7 +90,7 @@ export default function WalletConnectPage() {
                 <h1 className="text-2xl font-bold text-white">
                     Connect Wallet
                 </h1>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-700 text-sm">
                     Connect MetaMask to continue
                 </p>
             </div>
@@ -98,7 +98,15 @@ export default function WalletConnectPage() {
             <Card className="mb-6">
                 {!isConnected ? (
                     <div className="flex justify-between items-center">
-                        <span className="text-white">MetaMask</span>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                                <span className="text-lg">🦊</span>
+                            </div>
+                            <div className="text-left">
+                                <p className="font-medium text-violet-400">MetaMask</p>
+                                <p className="text-xs text-slate-400">Ethereum Network</p>
+                            </div>
+                        </div>
                         {isConnecting && <Loader2 className="animate-spin" />}
                     </div>
                 ) : (

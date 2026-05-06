@@ -115,7 +115,7 @@ export default function DashboardPage() {
             <Bell className="w-4.5 h-4.5 text-slate-400" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-violet-500 rounded-full border-2 border-slate-950" />
           </button>
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 border border-white/20 shadow-lg shadow-fuchsia-500/20" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-500 border border-white/20 shadow-lg shadow-fuchsia-500/20" />
         </div>
       </div>
 
@@ -130,13 +130,13 @@ export default function DashboardPage() {
           className="flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 rounded-2xl mb-8 mx-auto hover:border-violet-500/40 hover:bg-white/10 transition-all shadow-xl"
         >
           <div className={`w-2 h-2 ${isRealWallet ? "bg-emerald-400" : "bg-blue-400"} rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]`} />
-          <span className="text-xs font-mono text-slate-300 tracking-wider">
+          <span className="text-xs font-mono text-slate-500 tracking-wider">
             {address.slice(0, 8)}...{address.slice(-6)}
           </span>
           {copied ? (
             <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
           ) : (
-            <Copy className="w-3.5 h-3.5 text-slate-500" />
+            <Copy className="w-3.5 h-3.5 text-slate-700" />
           )}
         </button>
 
@@ -167,8 +167,8 @@ export default function DashboardPage() {
         <div className="grid grid-cols-3 gap-4">
           {[
             { label: "Send", icon: Send, href: "/send", primary: true },
-            { label: "Receive", icon: QrCode, onClick: () => setShowReceive(!showReceive) },
-            { label: "Activity", icon: History, href: "/transaction/review" },
+            { label: "Receive", icon: QrCode, onClick: () => setShowReceive(!showReceive), primary: true },
+            { label: "Activity", icon: History, href: "/transaction/review" , primary: true},
           ].map((action) => (
             <div key={action.label} className="flex flex-col items-center gap-2">
               <button
@@ -196,7 +196,7 @@ export default function DashboardPage() {
         <div className="mx-6 -mt-4 mb-4 animate-in fade-in slide-in-from-top-4 duration-300">
           <Card className="p-5 border border-violet-500/20 bg-slate-900/80">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm font-bold text-white">Receive Crypto</p>
+              <p className="text-sm font-bold text-violet-400">Receive Crypto</p>
               <button
                 onClick={() => setShowReceive(false)}
                 className="text-slate-500 hover:text-white text-xs transition-colors"
@@ -212,8 +212,8 @@ export default function DashboardPage() {
                     key={i}
                     className={`w-4 h-4 rounded-sm ${
                       [0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24,7,11,13,17].includes(i)
-                        ? "bg-slate-900"
-                        : "bg-white"
+                        ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-violet-500/20 border border-violet-400/30 hover:scale-105"
+                        : "bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 hover:border-white/20"
                     }`}
                   />
                 ))}

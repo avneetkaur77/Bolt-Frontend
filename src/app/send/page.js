@@ -23,7 +23,7 @@ export default function SendOptionsPage() {
                                 <Wallet className="w-6 h-6 text-violet-400" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-white text-lg">Send to Wallet</h3>
+                                <h3 className="font-bold text-violet-400 text-lg">Send to Wallet</h3>
                                 <p className="text-sm text-slate-400">Transfer functionality to another crypto wallet</p>
                             </div>
                         </div>
@@ -38,7 +38,7 @@ export default function SendOptionsPage() {
                                 <Building2 className="w-6 h-6 text-cyan-400" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-white text-lg">Send to Bank</h3>
+                                <h3 className="font-bold text-cyan-400 text-lg">Send to Bank</h3>
                                 <p className="text-sm text-slate-400">International wire transfer to bank account</p>
                             </div>
                         </div>

@@ -20,7 +20,7 @@ export default function ReviewPage() {
                 <Card className="space-y-4">
                     <div className="flex justify-between items-center py-2 border-b border-white/5">
                         <span className="text-slate-400 text-sm">Amount</span>
-                        <span className="text-xl font-bold text-white">0.45 ETH</span>
+                        <span className="text-xl font-bold text-violet-400">0.45 ETH</span>
                     </div>
 
                     <div className="space-y-3 pt-2">
@@ -34,7 +34,7 @@ export default function ReviewPage() {
                         </div>
                         <div className="flex justify-between">
                             <span className="text-slate-400 text-sm">Network Fee</span>
-                            <span className="text-white text-sm">0.002 ETH</span>
+                            <span className="text-violet-400 text-sm font-bold">0.002 ETH</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-slate-400 text-sm">Total</span>
@@ -44,8 +44,8 @@ export default function ReviewPage() {
                 </Card>
 
                 <div className="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-xl flex gap-3">
-                    <AlertCircle className="w-5 h-5 text-yellow-500 shrink-0" />
-                    <p className="text-xs text-yellow-200/80 leading-relaxed">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 shrink-0" />
+                    <p className="text-xs text-yellow-100/80 leading-relaxed">
                         Transactions are irreversible. Please ensure the receiver address is correct.
                     </p>
                 </div>
