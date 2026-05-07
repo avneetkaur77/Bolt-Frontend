@@ -9,7 +9,9 @@ import {
     CheckCircle,
     ArrowRight,
     Loader2,
-    ArrowLeft
+    ArrowLeft,
+    PlusCircle,
+    ShieldCheck
 } from "lucide-react";
 
 import Button from "@/components/Button";
@@ -28,6 +30,10 @@ export default function WalletConnectPage() {
 
     const [error, setError] = useState("");
 
+    // =========================
+    // CONNECT EXISTING METAMASK
+    // =========================
+
     const handleConnect = async () => {
 
         try {
@@ -36,7 +42,6 @@ export default function WalletConnectPage() {
 
             setError("");
 
-            // CLEAR OLD DATA
             localStorage.removeItem("walletMode");
             localStorage.removeItem("connectedWallet");
 
@@ -44,13 +49,13 @@ export default function WalletConnectPage() {
                 throw new Error("MetaMask not installed");
             }
 
-            // 🔥 FORCE METAMASK POPUP
+            // FORCE METAMASK POPUP
             await window.ethereum.request({
                 method: "wallet_requestPermissions",
                 params: [{ eth_accounts: {} }],
             });
 
-            // 🔥 OPEN ACCOUNT SELECTOR
+            // OPEN ACCOUNT SELECTOR
             const accounts = await window.ethereum.request({
                 method: "eth_requestAccounts",
             });
@@ -59,7 +64,7 @@ export default function WalletConnectPage() {
 
             setWalletAddress(address);
 
-            // 🔥 CHECK REAL ETH BALANCE
+            // CHECK BALANCE
             const balanceHex = await window.ethereum.request({
                 method: "eth_getBalance",
                 params: [address, "latest"],
@@ -81,24 +86,21 @@ export default function WalletConnectPage() {
                     address
                 );
 
-                setIsConnected(true);
-
             } else {
 
-                // DEMO MODE
                 localStorage.setItem("walletMode", "demo");
-
-                setIsConnected(true);
 
                 setError(
                     "0 ETH detected. Demo fallback mode enabled."
                 );
             }
 
+            setIsConnected(true);
+
             // SAVE WALLET TO BACKEND
             const token = localStorage.getItem("token");
 
-            const res = await fetch(
+            await fetch(
                 "http://localhost:5001/api/wallet/connect",
                 {
                     method: "POST",
@@ -112,27 +114,14 @@ export default function WalletConnectPage() {
                 }
             );
 
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(
-                    data.error || "Failed to save wallet"
-                );
-            }
-
         } catch (err) {
 
             console.log(err);
 
-            // USER CANCELLED METAMASK
             if (err.code === 4001) {
 
-                localStorage.setItem("walletMode", "demo");
-
-                setIsConnected(true);
-
                 setError(
-                    "MetaMask connection cancelled. Demo mode enabled."
+                    "MetaMask connection cancelled."
                 );
 
             } else {
@@ -146,14 +135,24 @@ export default function WalletConnectPage() {
         }
     };
 
+    // =========================
+    // CONTINUE
+    // =========================
+
     const handleContinue = () => {
-        router.push("/send/wallet");
+
+        router.push("/dashboard");
     };
+
+    // =========================
+    // UI
+    // =========================
 
     return (
 
         <ScreenContainer className="p-6 justify-center">
 
+            {/* Back */}
             <div className="mb-4">
 
                 <Link
@@ -166,70 +165,167 @@ export default function WalletConnectPage() {
 
             </div>
 
+            {/* Header */}
             <div className="text-center mb-8">
 
                 <Wallet className="w-10 h-10 mx-auto text-violet-400 mb-3" />
 
-                <h1 className="text-2xl font-bold text-white">
-                    Connect Wallet
+                <h1 className="text-3xl font-bold text-white">
+                    Setup Your Wallet
                 </h1>
 
-                <p className="text-slate-400 text-sm">
-                    Connect MetaMask to continue
+                <p className="text-slate-400 text-sm mt-2">
+                    Create a new wallet or connect an existing one.
                 </p>
 
             </div>
 
-            <Card className="mb-6">
+            {/* CREATE NEW WALLET */}
+            <Card className="mb-4 p-5 border border-violet-500/20 hover:border-violet-500/40 transition-all">
+
+                <div className="flex items-center gap-4">
+
+                    <div className="w-14 h-14 bg-violet-500/20 rounded-2xl flex items-center justify-center">
+                        <PlusCircle className="w-7 h-7 text-violet-400" />
+                    </div>
+
+                    <div className="flex-1">
+
+                        <h2 className="text-white font-semibold text-lg">
+                            Create New Wallet
+                        </h2>
+
+                        <p className="text-sm text-slate-400 mt-1">
+                            Generate a secure Bolt wallet with recovery phrase.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div className="mt-5">
+
+                    <Button
+                        fullWidth
+                        size="lg"
+                        onClick={() => router.push("/create-wallet")}
+                    >
+                        Create Wallet
+                    </Button>
+
+                </div>
+
+            </Card>
+
+            {/* OR */}
+            <div className="flex items-center gap-3 my-5">
+
+                <div className="h-px bg-slate-700 flex-1"></div>
+
+                <span className="text-slate-500 text-sm">
+                    OR
+                </span>
+
+                <div className="h-px bg-slate-700 flex-1"></div>
+
+            </div>
+
+            {/* CONNECT EXISTING */}
+            <Card className="mb-6 p-5">
 
                 {!isConnected ? (
 
-                    <div className="flex justify-between items-center">
+                    <>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-4">
 
-                            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                                <span className="text-lg">🦊</span>
+                            <div className="w-14 h-14 bg-orange-500/20 rounded-2xl flex items-center justify-center">
+                                <span className="text-2xl">🦊</span>
                             </div>
 
-                            <div className="text-left">
+                            <div className="flex-1">
 
-                                <p className="font-medium text-violet-400">
-                                    MetaMask
+                                <h2 className="text-white font-semibold text-lg">
+                                    Connect Existing Wallet
+                                </h2>
+
+                                <p className="text-sm text-slate-400 mt-1">
+                                    Connect MetaMask or another Ethereum wallet.
                                 </p>
 
-                                <p className="text-xs text-slate-400">
-                                    Ethereum Network
-                                </p>
+                            </div>
+
+                            {isConnecting && (
+                                <Loader2 className="animate-spin text-violet-400" />
+                            )}
+
+                        </div>
+
+                        <div className="mt-5">
+
+                            <Button
+                                onClick={handleConnect}
+                                isLoading={isConnecting}
+                                fullWidth
+                                size="lg"
+                            >
+                                Connect MetaMask
+                            </Button>
+
+                        </div>
+
+                    </>
+
+                ) : (
+
+                    <div className="text-center py-2">
+
+                        <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                            <CheckCircle className="text-emerald-400 w-8 h-8" />
+                        </div>
+
+                        <h2 className="text-xl font-bold text-white">
+                            Wallet Connected
+                        </h2>
+
+                        <p className="text-slate-400 text-sm mt-2">
+                            Your wallet has been connected successfully.
+                        </p>
+
+                        <div className="mt-5 bg-slate-900 rounded-xl p-4 border border-slate-700">
+
+                            <p className="text-xs text-slate-500 mb-1">
+                                Wallet Address
+                            </p>
+
+                            <p className="text-sm text-violet-400 break-all">
+                                {walletAddress}
+                            </p>
+
+                            <div className="mt-3 flex items-center justify-center gap-2">
+
+                                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+
+                                <span className="text-xs text-emerald-400">
+                                    Secure Connection Active
+                                </span>
 
                             </div>
 
                         </div>
 
-                        {isConnecting && (
-                            <Loader2 className="animate-spin" />
-                        )}
+                        <div className="mt-6">
 
-                    </div>
+                            <Button
+                                onClick={handleContinue}
+                                fullWidth
+                                size="lg"
+                                icon={ArrowRight}
+                            >
+                                Go To Dashboard
+                            </Button>
 
-                ) : (
-
-                    <div className="text-center">
-
-                        <CheckCircle className="text-green-400 mx-auto mb-2" />
-
-                        <p className="text-green-400">
-                            Connected
-                        </p>
-
-                        <p className="text-xs text-slate-400">
-                            {walletAddress.slice(0, 6)}...
-                            {walletAddress.slice(-4)}
-                        </p>
-
-                        <p className="text-xs text-violet-400 mt-2">
-                            Mode: {localStorage.getItem("walletMode")}
-                        </p>
+                        </div>
 
                     </div>
 
@@ -237,33 +333,16 @@ export default function WalletConnectPage() {
 
             </Card>
 
+            {/* ERROR */}
             {error && (
 
-                <p className="text-red-400 text-sm mb-3">
-                    {error}
-                </p>
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
 
-            )}
+                    <p className="text-red-400 text-sm text-center">
+                        {error}
+                    </p>
 
-            {!isConnected ? (
-
-                <Button
-                    onClick={handleConnect}
-                    isLoading={isConnecting}
-                    fullWidth
-                >
-                    Connect MetaMask
-                </Button>
-
-            ) : (
-
-                <Button
-                    onClick={handleContinue}
-                    fullWidth
-                    icon={ArrowRight}
-                >
-                    Continue
-                </Button>
+                </div>
 
             )}
 
